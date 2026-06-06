@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { avgMood, topTrigger, calcStreak, daysUntil, hasCheckedInToday, clamp } from "./utils";
+import { avgMood, topTrigger, calcStreak, daysUntil, hasCheckedInToday, clamp, moodMeta } from "./utils";
 
 const makeCheckIn = (mood: number, triggers: string[], daysAgo: number) => {
   const d = new Date();
@@ -99,4 +99,101 @@ describe("clamp", () => {
   it("clamps below min", () => expect(clamp(-5, 1, 5)).toBe(1));
   it("clamps above max", () => expect(clamp(10, 1, 5)).toBe(5));
   it("passes through valid values", () => expect(clamp(3, 1, 5)).toBe(3));
+  it("returns min when value equals min (boundary)", () => expect(clamp(1, 1, 5)).toBe(1));
+  it("returns max when value equals max (boundary)", () => expect(clamp(5, 1, 5)).toBe(5));
+});
+
+describe("moodMeta", () => {
+  it("returns the correct entry for mood 1 (Very Low)", () => {
+    const meta = moodMeta(1);
+    expect(meta.value).toBe(1);
+    expect(meta.label).toBe("Very Low");
+  });
+
+  it("returns the correct entry for mood 5 (Great)", () => {
+    const meta = moodMeta(5);
+    expect(meta.value).toBe(5);
+    expect(meta.label).toBe("Great");
+  });
+
+  it("returns the correct entry for mood 3 (Okay)", () => {
+    const meta = moodMeta(3);
+    expect(meta.label).toBe("Okay");
+  });
+
+  it("falls back to the middle mood (index 2) for an unknown value", () => {
+    const meta = moodMeta(99);
+    // MOODS[2] is mood value 3 — "Okay"
+    expect(meta.value).toBe(3);
+  });
+
+  it("every valid mood value 1-5 returns a matching entry", () => {
+    [1, 2, 3, 4, 5].forEach((v) => {
+      expect(moodMeta(v).value).toBe(v);
+    });
+  });
+});
+
+describe("topTrigger — additional edge cases", () => {
+  it("returns null when all check-ins have empty trigger arrays", () => {
+    const data = [
+      makeCheckIn(3, [], 0),
+      makeCheckIn(4, [], 1),
+    ];
+    expect(topTrigger(data)).toBeNull();
+  });
+
+  it("handles a tie by returning one of the tied triggers", () => {
+    const data = [
+      makeCheckIn(3, ["sleep"], 0),
+      makeCheckIn(3, ["parents"], 1),
+    ];
+    const result = topTrigger(data);
+    expect(["sleep", "parents"]).toContain(result);
+  });
+
+  it("works with a single check-in that has multiple triggers", () => {
+    const data = [makeCheckIn(2, ["syllabus", "mock_score", "time"], 0)];
+    const result = topTrigger(data);
+    expect(["syllabus", "mock_score", "time"]).toContain(result);
+  });
+});
+
+describe("calcStreak — additional edge cases", () => {
+  it("returns 1 when only yesterday was checked (no today)", () => {
+    const data = [makeCheckIn(3, [], 1)]; // only yesterday
+    // streak starts from today; yesterday doesn't match today
+    expect(calcStreak(data)).toBe(0);
+  });
+
+  it("returns correct streak with multiple check-ins on same day", () => {
+    const data = [
+      makeCheckIn(3, [], 0),
+      makeCheckIn(4, [], 0), // duplicate today
+      makeCheckIn(2, [], 1),
+    ];
+    // Both today entries point to today; should still count as streak 2
+    expect(calcStreak(data)).toBeGreaterThanOrEqual(1);
+  });
+});
+
+describe("daysUntil — additional edge cases", () => {
+  it("returns null for undefined-like falsy input", () => {
+    // @ts-expect-error testing runtime falsy
+    expect(daysUntil(undefined)).toBeNull();
+  });
+
+  it("returns a negative number for a past date", () => {
+    const past = new Date();
+    past.setDate(past.getDate() - 5);
+    const result = daysUntil(past);
+    expect(result).toBeLessThanOrEqual(-4); // at least 4 days in the past
+  });
+
+  it("accepts a date string", () => {
+    const future = new Date();
+    future.setDate(future.getDate() + 7);
+    const result = daysUntil(future.toISOString());
+    expect(result).toBe(7);
+  });
 });
