@@ -16,7 +16,7 @@ export const authConfig: NextAuthConfig = {
       const isLoggedIn = !!auth?.user;
       const pathname = nextUrl.pathname;
 
-      const publicPaths = ["/", "/login", "/signup", "/api/auth"];
+      const publicPaths = ["/", "/login", "/signup", "/api/auth", "/onboarding"];
       const isPublic =
         pathname === "/" || publicPaths.some((p) => p !== "/" && pathname.startsWith(p));
 

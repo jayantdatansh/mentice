@@ -49,54 +49,21 @@ export function MoodSparkline({ data, width = 320, height = 80 }: Props) {
       <title>Mood trend over last 7 days</title>
       {/* Grid lines */}
       {labels.map((l) => (
-        <line
-          key={l.y}
-          x1={padX}
-          x2={width - padX}
-          y1={l.y}
-          y2={l.y}
-          stroke="#334155"
-          strokeWidth="1"
-          strokeDasharray="4 2"
-        />
+        <line key={l.y} x1={padX} x2={width - padX} y1={l.y} y2={l.y} stroke="#e2e8f0" strokeWidth="1" strokeDasharray="4 2" />
       ))}
       {/* Y labels */}
       {labels.map((l) => (
-        <text
-          key={`label-${l.y}`}
-          x={padX - 4}
-          y={l.y + 4}
-          fontSize="9"
-          fill="#64748b"
-          textAnchor="end"
-          aria-hidden="true"
-        >
+        <text key={`label-${l.y}`} x={padX - 4} y={l.y + 4} fontSize="9" fill="#94a3b8" textAnchor="end" aria-hidden="true">
           {l.text}
         </text>
       ))}
       {/* Area fill */}
-      <path d={area} fill="url(#sparkGrad)" opacity="0.3" />
+      <path d={area} fill="url(#sparkGrad)" opacity="0.4" />
       {/* Line */}
-      <polyline
-        points={polyline}
-        fill="none"
-        stroke="#6366f1"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <polyline points={polyline} fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       {/* Dots */}
       {xs.map((x, i) => (
-        <circle
-          key={i}
-          cx={x}
-          cy={ys[i]}
-          r="3"
-          fill="#6366f1"
-          stroke="#0f172a"
-          strokeWidth="1.5"
-          aria-label={`Day ${i + 1}: mood ${data[i].mood}`}
-        />
+        <circle key={i} cx={x} cy={ys[i]} r="3" fill="#6366f1" stroke="#fff" strokeWidth="1.5" aria-label={`Day ${i + 1}: mood ${data[i].mood}`} />
       ))}
       <defs>
         <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">

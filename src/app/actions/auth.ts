@@ -26,7 +26,7 @@ export async function signUp(_prevState: unknown, formData: FormData) {
   const passwordHash = await bcrypt.hash(password, 12);
   await prisma.user.create({ data: { name, email, passwordHash } });
 
-  await signIn("credentials", { email, password, redirectTo: "/dashboard" });
+  await signIn("credentials", { email, password, redirectTo: "/onboarding" });
 }
 
 export async function login(_prevState: unknown, formData: FormData) {
