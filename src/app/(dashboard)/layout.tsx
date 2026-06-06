@@ -13,16 +13,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
       {/* ── Top nav ── */}
       <header className="shrink-0 border-b border-slate-200 bg-white shadow-sm">
-        <div className="mx-auto grid max-w-6xl grid-cols-3 items-center px-5 py-3">
+        <div className="mx-auto flex max-w-6xl items-center px-5 py-3">
 
-          {/* Left — logo */}
-          <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-75 transition-opacity">
+          {/* Left — logo (fixed width) */}
+          <Link href="/dashboard" className="flex shrink-0 items-center gap-2 hover:opacity-75 transition-opacity w-36">
             <Image src="/logo.png" alt="Mentice" width={26} height={26} className="h-6 w-auto" />
             <span className="text-base font-bold tracking-tight text-indigo-600">mentice</span>
           </Link>
 
-          {/* Center — nav links */}
-          <nav className="flex items-center justify-center gap-0.5 text-sm" aria-label="Main navigation">
+          {/* Center — nav links (takes remaining space, centered) */}
+          <nav className="flex flex-1 items-center justify-center gap-1" aria-label="Main navigation">
             {[
               { href: "/dashboard", label: "Home",     icon: "🏠" },
               { href: "/checkin",   label: "Check-in", icon: "✍️" },
@@ -32,7 +32,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-1.5 rounded-lg px-3 py-2 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
               >
                 <span className="text-base leading-none" aria-hidden="true">{item.icon}</span>
                 <span>{item.label}</span>
@@ -40,12 +40,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
             ))}
           </nav>
 
-          {/* Right — sign out */}
-          <div className="flex justify-end">
+          {/* Right — sign out (fixed width) */}
+          <div className="flex w-36 shrink-0 justify-end">
             <form action={async () => { "use server"; await signOut({ redirectTo: "/login" }); }}>
               <button
                 type="submit"
-                className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
+                className="whitespace-nowrap rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
               >
                 Sign out
               </button>
