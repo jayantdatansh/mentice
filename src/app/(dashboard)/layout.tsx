@@ -1,6 +1,7 @@
 import { auth, signOut } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { HELPLINES } from "@/lib/constants";
 
 export default async function DashboardLayout({
@@ -16,11 +17,9 @@ export default async function DashboardLayout({
       {/* Nav */}
       <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-          <Link
-            href="/dashboard"
-            className="text-lg font-bold tracking-tight text-indigo-400 hover:text-indigo-300"
-          >
-            mentice
+          <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <Image src="/logo.png" alt="Mentice logo" width={28} height={28} className="h-7 w-auto" />
+            <span className="text-lg font-bold tracking-tight text-indigo-400">mentice</span>
           </Link>
           <nav className="flex items-center gap-4 text-sm" aria-label="Main navigation">
             <Link
