@@ -3,7 +3,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { signIn } from "@/lib/auth";
-import { redirect } from "next/navigation";
+
 import { AuthError } from "next-auth";
 
 export async function signUp(_prevState: unknown, formData: FormData) {

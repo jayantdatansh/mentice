@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900">
+    <main className="min-h-screen bg-white font-sans text-slate-900">
 
       {/* ── NAV ── */}
       <header className="fixed inset-x-0 top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
@@ -19,7 +19,7 @@ export default function LandingPage() {
             <a href="#features"     className="hover:text-slate-900 transition-colors">Features</a>
           </nav>
           <Link
-            href="/onboarding"
+            href="/signup"
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-blue-100 transition hover:opacity-90"
           >
             Get Started <span aria-hidden="true">→</span>
@@ -58,7 +58,7 @@ export default function LandingPage() {
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Link
-                    href="/onboarding"
+                    href="/signup"
                     className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-teal-400 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition hover:opacity-90 hover:shadow-xl"
                   >
                     Start Your Journey <span aria-hidden="true">→</span>
@@ -196,7 +196,7 @@ export default function LandingPage() {
           <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Your wellbeing is your biggest competitive advantage.</h2>
           <p className="mb-8 text-blue-100">Join students who track their mental wellness alongside their studies.</p>
           <Link
-            href="/onboarding"
+            href="/signup"
             className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-blue-600 shadow-lg transition hover:shadow-xl hover:scale-105"
           >
             Start Free Today <span aria-hidden="true">→</span>
@@ -218,6 +218,6 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
-    </div>
+    </main>
   );
 }
